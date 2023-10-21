@@ -17,6 +17,13 @@ In early 2021, Danny opened a restaurant called "Danny's Diner," specializing in
 ## Problem Statement
 Danny wants to understand his customers better by analyzing their visiting habits, spending, and favourite menu items. This will help improve customer experience and decide on expanding the loyalty program. Danny shared limited customer data due to privacy concerns. He's provided three vital datasets for the case study:
 
-- [Sales]
-- [Menu]
-- [Members]
+- Sales
+- Menu
+- Members
+
+## Entity Relationship Diagram
+![image](https://shorturl.at/rx128)
+
+## Question and Solution
+
+
