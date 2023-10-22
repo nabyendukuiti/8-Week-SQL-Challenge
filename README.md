@@ -5,7 +5,7 @@
 - [Introduction](#Introduction)
 - [Problem Statement](#Problem-Statement)
 - [Entity Relationship Diagram](#Entity-Relationship-Diagram)
-- [Creating Schema and Tables](Creating-Schema-and-Tables)
+- [Creating Schema and Tables](#Creating-Schema-and-Tables)
 - [Question and Solution](#question-and-solution)
 
 N.B: Please note that all the information regarding the case study has been sourced from the following link: [here](https://8weeksqlchallenge.com/case-study-1/). 
