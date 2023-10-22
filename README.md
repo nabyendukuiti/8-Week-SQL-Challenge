@@ -31,7 +31,7 @@ Danny wants to understand his customers better by analyzing their visiting habit
 
 	use dannys_diner;
 ```
-*Create Sales table*
+> *Create Sales table*
 ```
 	create table sales (
 	customer_id varchar(2),
@@ -39,7 +39,7 @@ Danny wants to understand his customers better by analyzing their visiting habit
 	product_id int
 	);
 ```
-*Inserting data into Sales table*
+> *Inserting data into Sales table*
 ```
 	insert into sales (customer_id,order_date,product_id) 
 	values
