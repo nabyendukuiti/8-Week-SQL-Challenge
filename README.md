@@ -154,7 +154,7 @@ FROM sales s
 INNER JOIN menu m USING(product_id)
 GROUP BY m.product_name
 ORDER BY 2 desc
-limit 1;
+LIMIT 1;
 ```
 #### Answer
 	| product_name | most_purchase | 
@@ -177,13 +177,13 @@ FROM items
 WHERE rnk = 1; 
 ```
 #### Answer
-| customer_id | product_name | 
-| ----------- | ------------ |
-| A           | ramen        |
-| B           | sushi        |
-| B           | curry        |
-| B           | ramen        |
-| C           | ramen        |
+	| customer_id | product_name | 
+	| ----------- | ------------ |
+	| A           | ramen        |
+	| B           | sushi        |
+	| B           | curry        |
+	| B           | ramen        |
+	| C           | ramen        |
 
 > **6. Which item was purchased first by the customer after they became a member?**
 ```
@@ -202,3 +202,102 @@ FROM firstbuy
 WHERE rnk = 1;
 ```
 #### Answer
+	| customer_id | product_name |
+	| ----------- | ------------ |
+	| A           | ramen        |
+	| B           | sushi        |
+
+> **7. Which item was purchased just before the customer became a member?**
+```
+WITH firstbuy AS (
+   SELECT 
+     s.customer_id,s.order_date,s.product_id,m2.product_name,m1.join_date,
+     DENSE_RANK() OVER (PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS rnk
+   FROM sales s
+   INNER JOIN members m1 USING(customer_id)
+   INNER JOIN menu m2 USING(product_id)
+   WHERE s.order_date < m1.join_date
+)
+SELECT
+   customer_id,product_name
+FROM firstbuy
+WHERE rnk = 1;
+```
+#### Answer
+	| customer_id | product_name |
+	| ----------- | ------------ |
+	| A           | sushi        |
+	| A	      | curry        |
+	| B           | sushi        |
+
+ > **8. What is the total items and amount spent for each member before they became a member?**
+```
+WITH firstbuy AS (
+   SELECT
+     s.customer_id,s.order_date,m2.product_name,m1.join_date,COUNT(s.product_id) AS total_COUNT,
+		   (m2.price * COUNT(s.product_id)) total_cost,
+		   DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS rnk
+    FROM sales s
+    INNER JOIN members m1 USING(customer_id)
+    INNER JOIN menu m2 USING(product_id)
+    WHERE s.order_date < m1.join_date
+    GROUP BY s.customer_id,s.order_date,m2.product_name,m1.join_date,m2.price
+)
+SELECT
+   product_name,sum(total_COUNT) AS total_purchase,sum(total_cost) AS total_amount
+FROM firstbuy
+GROUP BY product_name;
+```
+#### Answer
+	| product_name | total_purchase | total_amount |
+	| ------------ | -------------- |--------------|
+	| Sushi        | 2              |  20          |
+	| Curry        | 3              |  45          |
+
+> **9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
+```
+WITH points AS (
+   SELECT *,
+     CASE 
+       WHEN product_name = 'Sushi' THEN price*20
+       ELSE price*10 
+       END AS points
+   FROM menu
+)
+SELECT
+   s.customer_id,sum(p.points) AS total_points
+FROM points p
+INNER JOIN sales s USING(product_id)
+GROUP BY customer_id;
+```
+#### Answer
+	| customer_id | total_points | 
+	| ----------- | ------------ |
+	| A           | 860          |
+	| B           | 940          |
+	| C           | 360          |
+
+> **10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?**
+```
+WITH point_table AS (
+  SELECT *,
+    CASE
+      WHEN s.order_date BETWEEN m2.join_date AND m2.join_date +6 THEN m1.price *20
+      WHEN s.order_date NOT BETWEEN m2.join_date AND m2.join_date +6 AND m1.product_id = 1 THEN m1.price *20
+      ELSE m1.price * 10
+      END AS points
+FROM sales s
+INNER JOIN menu m1 USING(product_id)
+INNER JOIN members m2 USING(customer_id)
+)
+SELECT
+  customer_id,SUM(points) AS total_points
+FROM point_table
+WHERE MONTH(order_date)=1
+GROUP BY customer_id ;
+```
+#### Answer
+	| customer_id | total_points | 
+	| ----------- | ------------ |
+	| A           | 1370         |
+	| B           | 820          |
