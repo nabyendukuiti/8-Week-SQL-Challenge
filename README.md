@@ -96,12 +96,11 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ## Question and Solution
 > **1. What is the total amount each customer spent at the restaurant?**
 ```
-	select
-	   s.customer_id,sum(m.price) as total_spending
-	from
-	   sales s
-	inner join menu m using(product_id)
-	group by s.customer_id;
+SELECT
+  s.customer_id,SUM(m.price) as total_spending
+FROM sales s
+INNER JOIN menu m USING(product_id)
+GROUP BY s.customer_id;
 ```
 #### Explanation
 - Used **INNER JOIN** to join Sales and Menu table. This join is based on matching values in the "product_id" column in both tables.
@@ -117,10 +116,10 @@ Danny wants to understand his customers better by analyzing their visiting habit
 
 > **2. How many days has each customer visited the restaurant?**
 ```
-	select
-	   customer_id, count(distinct order_date) as total_visiting
-	from sales
-	group by customer_id;
+SELECT
+  customer_id, COUNT(DISTINCT order_date) as total_visiting
+FROM sales
+GROUP BY customer_id;
 ```
 #### Explanation
 - **count(distinct order_date)** this part of the query calculate the number of visits for each customer.The **DISTINCT** keyword ensures that only unique values are considered when counting.
@@ -132,3 +131,30 @@ Danny wants to understand his customers better by analyzing their visiting habit
 	| A           | 4              |
 	| B           | 6              |
 	| C           | 2              |	
+
+> **3. What was the first item from the menu purchased by each customer?**
+```
+WITH ranking AS (
+SELECT
+  s.customer_id,m.product_name,s.product_id,
+  DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rnk
+FROM sales s
+INNER JOIN menu m USING(product_id)
+)
+SELECT
+  customer_id,product_name
+FROM ranking
+WHERE rnk = 1
+ORDER BY customer_id;
+```
+#### Explanation
+- The **CTE ranking** performs an inner join using the "product_id" column to bring together sales and product information and also calculates a rank for each product purchased by a customer, partitioned by the "customer_id" and ordered by the "order_date." The **DENSE_RANK()** function assigns a rank to each row, and the **PARTITION BY** clause ensures that the ranking is done separately for each customer.
+- **WHERE rnk = 1** The query selects the first purchase for each customer by only including rows where the rank ("rnk") is equal to 1. 
+
+#### Answer
+	| customer_id | product_name | 
+	| ----------- | ------------ |
+	| A           | curry        | 
+	| A           | sushi        | 
+	| B           | curry        | 
+	| C           | ramen        |
