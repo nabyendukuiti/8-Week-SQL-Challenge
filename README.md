@@ -158,3 +158,22 @@ ORDER BY customer_id;
 	| A           | sushi        | 
 	| B           | curry        | 
 	| C           | ramen        |
+
+> **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
+```
+SELECT m.product_name,COUNT(s.product_id) AS most_purchase
+FROM sales s
+INNER JOIN menu m USING(product_id)
+GROUP BY m.product_name
+ORDER BY 2 desc
+limit 1;
+```
+#### Explanation
+- **COUNT(s.product_id) AS total_purchase** calculates the total number of occurrences (or purchases) of products in the "sales" table
+- After grouping, order the results in descending order, which means the products with the highest purchase count will appear first.
+- **LIMIT 1** Finally, this limits the result to just one row, which will be the product with the highest purchase count.
+- 
+#### Answer
+	| product_name | most_purchase | 
+	| ------------ | ------------- |
+	| Ramen        | 8             |
