@@ -161,7 +161,8 @@ ORDER BY customer_id;
 
 > **4. What is the most purchased item on the menu and how many times was it purchased by all customers?**
 ```
-SELECT m.product_name,COUNT(s.product_id) AS most_purchase
+SELECT
+  m.product_name,COUNT(s.product_id) AS most_purchase
 FROM sales s
 INNER JOIN menu m USING(product_id)
 GROUP BY m.product_name
