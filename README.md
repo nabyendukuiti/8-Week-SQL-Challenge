@@ -35,9 +35,9 @@ Danny wants to understand his customers better by analyzing their visiting habit
 > *Create Sales table*
 ```
 	create table sales (
-	customer_id varchar(2),
-	order_date date,
-	product_id int
+	   customer_id varchar(2),
+	   order_date date,
+	   product_id int
 	);
 ```
 > *Inserting data into Sales table*
@@ -63,9 +63,9 @@ Danny wants to understand his customers better by analyzing their visiting habit
 > *Create Members table*
 ```
 	create table members (
-	customer_id varchar(2),
-	join_date date,
-	primary key (customer_id)
+	   customer_id varchar(2),
+	   join_date date,
+	   primary key (customer_id)
 	);
 ```
 > *Inserting data into Members table*
@@ -78,10 +78,10 @@ Danny wants to understand his customers better by analyzing their visiting habit
 > *Create Menu table*
 ```
 	create table menu (
-	product_id int,
-	product_name varchar(5),
-	price int,
-	primary key (product_id)
+	   product_id int,
+	   product_name varchar(5),
+	   price int,
+	   primary key (product_id)
 	);
 ```
 > *Inserting data into Menu table*
