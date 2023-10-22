@@ -102,11 +102,6 @@ FROM sales s
 INNER JOIN menu m USING(product_id)
 GROUP BY s.customer_id;
 ```
-#### Explanation
-- Used **INNER JOIN** to join Sales and Menu table. This join is based on matching values in the "product_id" column in both tables.
-- Used **SUM** to calculate the total spending for each customer by summing the "price" column from the "menu" table.
-- The results are grouped by the "customer_id" column from the "sales" table.
-
 #### Answer
 	| customer_id | total_spending |
 	| ----------- | -------------- |
@@ -121,10 +116,6 @@ SELECT
 FROM sales
 GROUP BY customer_id;
 ```
-#### Explanation
-- **count(distinct order_date)** this part of the query calculate the number of visits for each customer.The **DISTINCT** keyword ensures that only unique values are considered when counting.
-- The results are grouped by the "customer_id" column
-
 #### Answer
 	| customer_id | total_visiting |
 	| ----------- | -------------- |
@@ -147,10 +138,6 @@ FROM ranking
 WHERE rnk = 1
 ORDER BY customer_id;
 ```
-#### Explanation
-- The **CTE ranking** performs an inner join using the "product_id" column to bring together sales and product information and also calculates a rank for each product purchased by a customer, partitioned by the "customer_id" and ordered by the "order_date." The **DENSE_RANK()** function assigns a rank to each row, and the **PARTITION BY** clause ensures that the ranking is done separately for each customer.
-- **WHERE rnk = 1** The query selects the first purchase for each customer by only including rows where the rank ("rnk") is equal to 1. 
-
 #### Answer
 	| customer_id | product_name | 
 	| ----------- | ------------ |
@@ -169,12 +156,49 @@ GROUP BY m.product_name
 ORDER BY 2 desc
 limit 1;
 ```
-#### Explanation
-- **COUNT(s.product_id) AS total_purchase** calculates the total number of occurrences (or purchases) of products in the "sales" table
-- After grouping, order the results in descending order, which means the products with the highest purchase count will appear first.
-- **LIMIT 1** Finally, this limits the result to just one row, which will be the product with the highest purchase count.
-- 
 #### Answer
 	| product_name | most_purchase | 
 	| ------------ | ------------- |
 	| Ramen        | 8             |
+
+> **5. Which item was the most popular for each customer?**
+```
+WITH items AS (
+  SELECT
+     s.customer_id,s.product_id,m.product_name,COUNT(s.product_id) AS total_purchase,
+     DENSE_RANK() OVER (PARTITION BY customer_id ORDER BY COUNT(product_id) DESC) AS rnk
+  FROM sales s
+  INNER JOINmenu m USING(product_id)
+  GROUP BYs.customer_id,s.product_id,m.product_name,customer_id
+)
+SELECT
+  customer_id,product_name
+FROM items
+WHERE rnk = 1; 
+```
+#### Answer
+| customer_id | product_name | 
+| ----------- | ------------ |
+| A           | ramen        |
+| B           | sushi        |
+| B           | curry        |
+| B           | ramen        |
+| C           | ramen        |
+
+> **6. Which item was purchased first by the customer after they became a member?**
+```
+WITH firstbuy AS (
+  SELECT
+    s.customer_id,s.order_date,s.product_id,m2.product_name,m1.join_date,
+    dense_rank() OVER (Partition by s.customer_id ORDER BY s.order_date) AS rnk
+  FROM sales s
+  INNER JOIN members m1 USING(customer_id)
+  INNER JOIN menu m2 USING(product_id)
+  WHERE s.order_date > m1.join_date
+)
+SELECT
+  customer_id,product_name
+FROM firstbuy
+WHERE rnk = 1;
+```
+#### Answer
