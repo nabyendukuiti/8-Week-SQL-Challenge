@@ -104,7 +104,17 @@ Danny wants to understand his customers better by analyzing their visiting habit
 	group by s.customer_id;
 ```
 #### Explanation
-- Used **JOIN**
+	- Used **INNER JOIN** to join Sales and Menu table. This join is based on matching values in the "product_id" column in both 		  tables.
+	- Used **SUM** to calculate the total spending for each customer by summing the "price" column from the "menu" table.
+	- The results are grouped by the "customer_id" column from the "sales" table.
+
+#### Answer
+	| customer_id | total_sales |
+	| ----------- | ----------- |
+	| A           | 76          |
+	| B           | 74          |
+	| C           | 36          |
+
 > *2. How many days has each customer visited the restaurant?*
 ```
 	select
