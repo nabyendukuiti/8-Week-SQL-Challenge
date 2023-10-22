@@ -97,28 +97,38 @@ Danny wants to understand his customers better by analyzing their visiting habit
 > **1. What is the total amount each customer spent at the restaurant?**
 ```
 	select
-	   s.customer_id,sum(m.price) as Total_spending
+	   s.customer_id,sum(m.price) as total_spending
 	from
 	   sales s
 	inner join menu m using(product_id)
 	group by s.customer_id;
 ```
 #### Explanation
-	- Used **INNER JOIN** to join Sales and Menu table. This join is based on matching values in the "product_id" column in both 		  tables.
-	- Used **SUM** to calculate the total spending for each customer by summing the "price" column from the "menu" table.
-	- The results are grouped by the "customer_id" column from the "sales" table.
+- Used **INNER JOIN** to join Sales and Menu table. This join is based on matching values in the "product_id" column in both tables.
+- Used **SUM** to calculate the total spending for each customer by summing the "price" column from the "menu" table.
+- The results are grouped by the "customer_id" column from the "sales" table.
 
 #### Answer
-	| customer_id | total_sales |
-	| ----------- | ----------- |
-	| A           | 76          |
-	| B           | 74          |
-	| C           | 36          |
+	| customer_id | total_spending |
+	| ----------- | -------------- |
+	| A           | 76             |
+	| B           | 74             |
+	| C           | 36             |
 
-> *2. How many days has each customer visited the restaurant?*
+> **2. How many days has each customer visited the restaurant?**
 ```
 	select
-	   customer_id, count(distinct order_date) as Total_visiting
+	   customer_id, count(distinct order_date) as total_visiting
 	from sales
 	group by customer_id;
 ```
+#### Explanation
+- **count(distinct order_date)** this part of the query calculate the number of visits for each customer.The **DISTINCT** keyword ensures that only unique values are considered when counting.
+- The results are grouped by the "customer_id" column
+
+#### Answer
+	| customer_id | total_visiting |
+	| ----------- | -------------- |
+	| A           | 4              |
+	| B           | 6              |
+	| C           | 2              |	
