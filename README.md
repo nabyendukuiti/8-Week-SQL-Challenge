@@ -26,6 +26,7 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ![image](https://shorturl.at/rx128)
 
 ## Creating Schema and Tables
+> *Create Schema*
 ```
 	create database dannys_diner;
 
@@ -58,32 +59,33 @@ Danny wants to understand his customers better by analyzing their visiting habit
 	    ('C','2021-01-01',3),
 	    ('C','2021-01-01',3),
 	    ('C','2021-01-07',3);
-````
-*Create Members table*
-````
+```
+> *Create Members table*
+```
 	create table members (
 	customer_id varchar(2),
 	join_date date,
 	primary key (customer_id)
 	);
-````
-*Inserting data into Members table*
-````
+```
+> *Inserting data into Members table*
+```
 	insert into members (customer_id,join_date)
 	values
 	    ('A','2021-01-07'),
             ('B','2021-01-09');
-````
-*Create Menu table*
-````
+```
+> *Create Menu table*
+```
 	create table menu (
 	product_id int,
 	product_name varchar(5),
 	price int,
 	primary key (product_id)
 	);
-````
-*Inserting data into Menu table*
+```
+> *Inserting data into Menu table*
+```
 	insert into menu (product_id,product_name,price)
 	values
 	    (1,'Sushi',10),
