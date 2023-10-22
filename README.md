@@ -26,13 +26,13 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ![image](https://shorturl.at/rx128)
 
 ## Creating Schema and Tables
-> *Create Schema*
+> *Creating Schema*
 ```
 	create database dannys_diner;
 
 	use dannys_diner;
 ```
-> *Create Sales table*
+> *Creating Sales table*
 ```
 	create table sales (
 	   customer_id varchar(2),
@@ -60,7 +60,7 @@ Danny wants to understand his customers better by analyzing their visiting habit
 	    ('C','2021-01-01',3),
 	    ('C','2021-01-07',3);
 ```
-> *Create Members table*
+> *Creating Members table*
 ```
 	create table members (
 	   customer_id varchar(2),
@@ -75,7 +75,7 @@ Danny wants to understand his customers better by analyzing their visiting habit
 	    ('A','2021-01-07'),
             ('B','2021-01-09');
 ```
-> *Create Menu table*
+> *Creating Menu table*
 ```
 	create table menu (
 	   product_id int,
@@ -94,5 +94,16 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ```
 
 ## Question and Solution
-
-
+> *1. What is the total amount each customer spent at the restaurant?*
+```
+	select s.customer_id,sum(m.price) as Total_spending
+	from sales s
+	inner join menu m using(product_id)
+	group by s.customer_id;
+```
+> *2. How many days has each customer visited the restaurant?*
+```
+	select customer_id, count(distinct order_date) as Total_visiting
+	from sales
+	group by customer_id;
+```
