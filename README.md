@@ -29,13 +29,13 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ## Creating Schema and Tables
 > **Creating Schema**
 ```
-	create database dannys_diner;
+	CREATE DATABASE dannys_diner;
 
-	use dannys_diner;
+	USE dannys_diner;
 ```
 > **Creating Sales table**
 ```
-	create table sales (
+	CREATE TABLE sales (
 	   customer_id varchar(2),
 	   order_date date,
 	   product_id int
@@ -43,8 +43,8 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ```
 > **Inserting data into Sales table**
 ```
-	insert into sales (customer_id,order_date,product_id) 
-	values
+	INSERT INTO sales (customer_id,order_date,product_id) 
+	VALUES
 	    ('A','2021-01-01',1),
 	    ('A','2021-01-01',2),
 	    ('A','2021-01-07',2),
@@ -63,7 +63,7 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ```
 > **Creating Members table**
 ```
-	create table members (
+	CREATE TABLE members (
 	   customer_id varchar(2),
 	   join_date date,
 	   primary key (customer_id)
@@ -71,14 +71,14 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ```
 > **Inserting data into Members table**
 ```
-	insert into members (customer_id,join_date)
-	values
+	INSERT INTO members (customer_id,join_date)
+	VALUES
 	    ('A','2021-01-07'),
             ('B','2021-01-09');
 ```
 > **Creating Menu table**
 ```
-	create table menu (
+	CREATE TABLE menu (
 	   product_id int,
 	   product_name varchar(5),
 	   price int,
@@ -87,8 +87,8 @@ Danny wants to understand his customers better by analyzing their visiting habit
 ```
 > **Inserting data into Menu table**
 ```
-	insert into menu (product_id,product_name,price)
-	values
+	INSERT INTO menu (product_id,product_name,price)
+	VALUES
 	    (1,'Sushi',10),
 	    (2,'Curry',15),
 	    (3,'Ramen',12);
