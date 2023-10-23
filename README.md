@@ -304,8 +304,8 @@ GROUP BY customer_id ;
 	| B           | 820          |
 
 ## Bonus Questions
-> ** PART A: Join All The Things - Recreate the table with: customer_id, order_date, product_name, price, member (Y/N)
-> PART B: Rank All The Things - Danny needs information on product rankings for customers in the loyalty program but expects null ranking values for non-members.**
+> PART A: Join All The Things - Recreate the table with: customer_id, order_date, product_name, price, member (Y/N)
+> PART B: Rank All The Things - Danny needs information on product rankings for customers in the loyalty program but expects null ranking values for non-members.
 ```
 WITH cte AS (
   SELECT *,
