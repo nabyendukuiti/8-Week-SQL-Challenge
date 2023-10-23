@@ -301,3 +301,45 @@ GROUP BY customer_id ;
 	| ----------- | ------------ |
 	| A           | 1370         |
 	| B           | 820          |
+
+## Bonus Questions
+> ** PART A: Join All The Things - Recreate the table with: customer_id, order_date, product_name, price, member (Y/N)**
+> ** PART B: Rank All The Things - Danny needs information on product rankings for customers in the loyalty program but expects null ranking values for non-members.**
+```
+WITH cte AS (
+  SELECT *,
+    CASE
+      WHEN order_date>=join_date THEN 'Y'
+      ELSE 'N'
+    END AS member
+  FROM sales s
+  LEFT JOIN members m1 USING(customer_id)
+  INNER JOIN menu m2 USING(product_id)
+  ORDER BY customer_id
+)
+SELECT
+  customer_id,order_date,product_name,price,member,
+  CASE
+    WHEN member = 'Y' 
+    THEN DENSE_RANK() OVER (PARTITION BY customer_id,member ORDER BY order_date )
+    ELSE 'null'
+  END AS ranking
+FROM cte;
+```
+#### Answer
+	customer_id	order_date	product_name	price	member	ranking
+	A		2021-01-01	Sushi		10	N	null
+	A		2021-01-01	Curry		15	N	null
+	A		2021-01-07	Curry		15	Y	1
+	A		2021-01-07	Ramen		12	Y	1
+	A		2021-01-10	Ramen		12	Y	2
+	A		2021-01-11	Ramen		12	Y	3
+	B		2021-01-01	Curry		15	N	null
+	B		2021-01-02	Curry		15	N	null
+	B		2021-01-04	Sushi		10	N	null
+	B		2021-01-11	Sushi		10	Y	1
+	B		2021-01-16	Ramen		12	Y	2
+	B		2021-02-01	Ramen		12	Y	3
+	C		2021-01-01	Ramen		12	N	null
+	C		2021-01-01	Ramen		12	N	null
+	C		2021-01-07	Ramen		12	N	null	
