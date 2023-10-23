@@ -1,7 +1,8 @@
 # Case Study #1: Danny's Diner
-![Danny's Diner pic](https://github.com/nabyendukuiti/8-Week-SQL-Challenge/assets/140970847/c2e03e34-e37a-4342-b8f1-ea58f0ac3de8)
+![Danny's Diner pic](https://github.com/nabyendukuiti/8-Week-SQL-Challenge/assets/140970847/64960e4e-2778-4e7d-9f7d-6a2b240aa220)
 
 ## Table of Contents
+
 - [Introduction](#Introduction)
 - [Problem Statement](#Problem-Statement)
 - [Entity Relationship Diagram](#Entity-Relationship-Diagram)
