@@ -103,7 +103,7 @@ FROM sales s
 INNER JOIN menu m USING(product_id)
 GROUP BY s.customer_id;
 ```
-#### Answer
+#### Answer 1
 	| customer_id | total_spending |
 	| ----------- | -------------- |
 	| A           | 76             |
@@ -117,7 +117,7 @@ SELECT
 FROM sales
 GROUP BY customer_id;
 ```
-#### Answer
+#### Answer 2
 	| customer_id | total_visiting |
 	| ----------- | -------------- |
 	| A           | 4              |
@@ -139,7 +139,7 @@ FROM ranking
 WHERE rnk = 1
 ORDER BY customer_id;
 ```
-#### Answer
+#### Answer 3
 	| customer_id | product_name | 
 	| ----------- | ------------ |
 	| A           | curry        | 
@@ -157,7 +157,7 @@ GROUP BY m.product_name
 ORDER BY 2 desc
 LIMIT 1;
 ```
-#### Answer
+#### Answer 4
 	| product_name | most_purchase | 
 	| ------------ | ------------- |
 	| Ramen        | 8             |
@@ -177,7 +177,7 @@ SELECT
 FROM items
 WHERE rnk = 1; 
 ```
-#### Answer
+#### Answer 5
 	| customer_id | product_name | 
 	| ----------- | ------------ |
 	| A           | ramen        |
@@ -202,7 +202,7 @@ SELECT
 FROM firstbuy
 WHERE rnk = 1;
 ```
-#### Answer
+#### Answer 6
 	| customer_id | product_name |
 	| ----------- | ------------ |
 	| A           | curry        |
@@ -224,7 +224,7 @@ SELECT
 FROM firstbuy
 WHERE rnk = 1;
 ```
-#### Answer
+#### Answer 7
 	| customer_id | product_name |
 	| ----------- | ------------ |
 	| A           | sushi        |
@@ -243,7 +243,7 @@ INNER JOIN menu m2 USING(product_id)
 WHERE s.order_date < m1.join_date
 GROUP BY s.customer_id;
 ```
-#### Answer
+#### Answer 8
 	| customer_id  | total_purchase | amount_spent |
 	| ------------ | -------------- |--------------|
 	| A            | 2              |  25          |
@@ -265,7 +265,7 @@ FROM points p
 INNER JOIN sales s USING(product_id)
 GROUP BY customer_id;
 ```
-#### Answer
+#### Answer 9
 	| customer_id | total_points | 
 	| ----------- | ------------ |
 	| A           | 860          |
@@ -291,7 +291,7 @@ FROM point_table
 WHERE MONTH(order_date)=1
 GROUP BY customer_id ;
 ```
-#### Answer
+#### Answer 10
 	| customer_id | total_points | 
 	| ----------- | ------------ |
 	| A           | 1370         |
@@ -321,7 +321,7 @@ SELECT
   END AS ranking
 FROM cte;
 ```
-#### Answer
+#### Answer Bonus
 	customer_id	order_date	product_name	price	member	ranking
 	A		2021-01-01	Sushi		10	N	null
 	A		2021-01-01	Curry		15	N	null
