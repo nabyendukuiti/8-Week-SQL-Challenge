@@ -233,27 +233,21 @@ WHERE rnk = 1;
 
  > **8. What is the total items and amount spent for each member before they became a member?**
 ```
-WITH firstbuy AS (
-   SELECT
-     s.customer_id,s.order_date,m2.product_name,m1.join_date,COUNT(s.product_id) AS total_COUNT,
-		   (m2.price * COUNT(s.product_id)) total_cost,
-		   DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS rnk
-    FROM sales s
-    INNER JOIN members m1 USING(customer_id)
-    INNER JOIN menu m2 USING(product_id)
-    WHERE s.order_date < m1.join_date
-    GROUP BY s.customer_id,s.order_date,m2.product_name,m1.join_date,m2.price
-)
 SELECT
-   product_name,sum(total_COUNT) AS total_purchase,sum(total_cost) AS total_amount
-FROM firstbuy
-GROUP BY product_name;
+	s.customer_id,
+    count(product_name) AS total_purchase,
+    sum(price) AS amount_spent
+FROM sales s
+INNER JOIN members m1 USING(customer_id)
+INNER JOIN menu m2 USING(product_id)
+WHERE s.order_date < m1.join_date
+GROUP BY s.customer_id;
 ```
 #### Answer
-	| product_name | total_purchase | total_amount |
+	| customer_id  | total_purchase | amount_spent |
 	| ------------ | -------------- |--------------|
-	| Sushi        | 2              |  20          |
-	| Curry        | 3              |  45          |
+	| A            | 2              |  25          |
+	| B            | 3              |  40          |
 
 > **9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?**
 ```
