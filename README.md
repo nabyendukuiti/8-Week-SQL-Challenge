@@ -191,11 +191,11 @@ WHERE rnk = 1;
 WITH firstbuy AS (
   SELECT
     s.customer_id,s.order_date,s.product_id,m2.product_name,m1.join_date,
-    dense_rank() OVER (Partition by s.customer_id ORDER BY s.order_date) AS rnk
+    ROW_NUMBER() OVER (Partition by s.customer_id ORDER BY s.order_date) AS rnk
   FROM sales s
   INNER JOIN members m1 USING(customer_id)
   INNER JOIN menu m2 USING(product_id)
-  WHERE s.order_date > m1.join_date
+  WHERE s.order_date >= m1.join_date
 )
 SELECT
   customer_id,product_name
@@ -205,7 +205,7 @@ WHERE rnk = 1;
 #### Answer
 	| customer_id | product_name |
 	| ----------- | ------------ |
-	| A           | ramen        |
+	| A           | curry        |
 	| B           | sushi        |
 
 > **7. Which item was purchased just before the customer became a member?**
